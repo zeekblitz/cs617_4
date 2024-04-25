@@ -10,6 +10,7 @@
 
     <script>
         // Load data from CSV file
+        
         fetch('data.csv')
             .then(response => response.text())
             .then(data => {
@@ -21,8 +22,8 @@
                 rows.forEach(row => {
                     const columns = row.split(',');
                     labels.push(columns[0]); // Assuming the first column contains labels
-                    const xValue = parseFloat(columns[1]); // Assuming the second column contains x-values
-                    const yValue = parseFloat(columns[2]); // Assuming the third column contains y-values
+                    const xValue = parseInt(columns[6]); // Assuming the second column contains x-values
+                    const yValue = parseInt(columns[5]); // Assuming the third column contains y-values
                     dataPoints.push({ x: xValue, y: yValue });
                 });
 
