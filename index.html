@@ -24,9 +24,9 @@
                 rows.forEach(row => {
                     const columns = row.split(',');
                     labels.push(columns[0] + ' ' + columns[1]);
-                    const xValue = parseFloat(columns[6]);
-                    const yValue = parseInt(columns[5]);
-                    const zValue = parseInt(columns[7] + minSize);
+                    const xValue = parseFloat(columns[6]); // RMP rating
+                    const yValue = parseInt(columns[5]); // Salary
+                    const zValue = parseInt(columns[7] + minSize); // number of ratings
                     dataPoints.push({ x: xValue, y: yValue });
                     maxSize.push(zValue);
                 });
@@ -40,11 +40,12 @@
                         datasets: [{
                             label: 'Rating vs Salary',
                             data: dataPoints,
-                            backgroundColor: 'rgba(75, 192, 192, 0.6)', // Color of data points
-                            borderColor: 'rgba(75, 192, 192, 1)', // Border color of data points
+                            backgroundColor: 'rgba(0, 90, 139, 0.6)', // Color of data points
+                            borderColor: 'rgba(0, 90, 139, 1)', // Border color of data points
                             borderWidth: 1,
                             pointRadius: minSize, // Size of data points
-                            pointHoverRadius: maxSize, // Size of data points on hover
+                            //pointHoverRadius: maxSize.values()
+                            pointHoverRadius: 10
                         }]
                     },
                     options: {
