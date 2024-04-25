@@ -17,6 +17,7 @@
                 const labels = [];
                 const dataPoints = [];
                 const minSize = 5;
+                const maxSize = [];
 
                 // Parse CSV data
                 const rows = data.trim().split('\n');
@@ -26,7 +27,8 @@
                     const xValue = parseFloat(columns[6]);
                     const yValue = parseInt(columns[5]);
                     const zValue = parseInt(columns[7] + minSize);
-                    dataPoints.push({ x: xValue, y: yValue, z:zValue });
+                    dataPoints.push({ x: xValue, y: yValue });
+                    maxSize.push(zValue);
                 });
 
                 // Create scatterplot
@@ -42,7 +44,7 @@
                             borderColor: 'rgba(75, 192, 192, 1)', // Border color of data points
                             borderWidth: 1,
                             pointRadius: minSize, // Size of data points
-                            pointHoverRadius: dataPoints.z, // Size of data points on hover
+                            pointHoverRadius: maxSize, // Size of data points on hover
                         }]
                     },
                     options: {
