@@ -35,7 +35,7 @@
                 const minValue = Math.min(...colors);
                 const maxValue = Math.max(...colors);
                 const colorScale = (value) => {
-                    const normalizedValue = (value - minValue) / (maxValue - minValue);
+                    const normalizedValue = parseInt((value - minValue) / (maxValue - minValue));
                     return `rgba(255, 0, 0, ${normalizedValue})`; // Red gradient (change as needed)
                 };
 
