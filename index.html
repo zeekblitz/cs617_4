@@ -16,6 +16,7 @@
                 const labels = [];
                 const dataPoints = [];
                 const sizeValues = [];
+                const minSize = 5;
 
                 // Parse CSV data
                 const rows = data.trim().split('\n');
@@ -24,7 +25,7 @@
                     labels.push(columns[0] + ' ' + columns[1]); // Assuming the first column contains labels
                     const xValue = parseFloat(columns[6]); // Assuming the second column contains x-values
                     const yValue = parseFloat(columns[5]); // Assuming the third column contains y-values
-                    const sizeValue = parseFloat(columns[7]); // Assuming the fourth column contains size-values
+                    const sizeValue = parseFloat(columns[7] + minSize); // Assuming the fourth column contains size-values
                     dataPoints.push({ x: xValue, y: yValue });
                     sizeValues.push(sizeValue);
                 });
@@ -41,7 +42,7 @@
                             backgroundColor: 'rgba(75, 192, 192, 0.6)',
                             borderColor: 'rgba(75, 192, 192, 1)',
                             borderWidth: 1,
-                            pointRadius: sizeValues, // Set initial point radius based on sizeValues
+                            pointRadius: minSize, // Set initial point radius based on sizeValues
                             hoverRadius: sizeValues // Set hover point radius based on sizeValues
                         }]
                     },
