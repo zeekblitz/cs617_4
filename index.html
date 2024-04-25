@@ -1,27 +1,62 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Scatterplot Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    // create a vegalite chart based on the data in the csv file
-    <div id="vis"></div>
-    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-lite@4"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    <canvas id="scatterChart" width="800" height="600"></canvas>
+
     <script>
-        vegaEmbed('#vis', {
-            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
-            "data": {
-                "url": "data.csv"
-            },
-            "mark": "bar",
-            "encoding": {
-                "x": {"field": "a", "type": "ordinal"},
-                "y": {"field": "b", "type": "quantitative"}
-            }
-        });
+        // Load data from CSV file
+        fetch('data.csv')
+            .then(response => response.text())
+            .then(data => {
+                const labels = [];
+                const dataPoints = [];
+
+                // Parse CSV data
+                const rows = data.trim().split('\n');
+                rows.forEach(row => {
+                    const columns = row.split(',');
+                    labels.push(columns[0]); // Assuming the first column contains labels
+                    const xValue = parseFloat(columns[1]); // Assuming the second column contains x-values
+                    const yValue = parseFloat(columns[2]); // Assuming the third column contains y-values
+                    dataPoints.push({ x: xValue, y: yValue });
+                });
+
+                // Create scatterplot
+                const ctx = document.getElementById('scatterChart').getContext('2d');
+                const scatterChart = new Chart(ctx, {
+                    type: 'scatter',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Scatterplot Example',
+                            data: dataPoints,
+                            backgroundColor: 'rgba(75, 192, 192, 0.6)', // Color of data points
+                            borderColor: 'rgba(75, 192, 192, 1)', // Border color of data points
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                type: 'linear',
+                                position: 'bottom'
+                            },
+                            y: {
+                                type: 'linear',
+                                position: 'left'
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
     </script>
 </body>
 </html>
