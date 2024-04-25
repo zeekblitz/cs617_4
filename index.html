@@ -58,9 +58,30 @@
                                 type: 'linear',
                                 position: 'left'
                             }
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: (tooltipItem) => `${tooltipItem.label}: (${tooltipItem.raw.x}, ${tooltipItem.raw.y})`
+                                }
+                            }
+                        },
+                        interaction: {
+                            mode: 'nearest',
+                            intersect: false
                         }
                     }
                 });
+
+                // Update point radius on hover
+                scatterChart.options.plugins.tooltip.callbacks.afterLabel = (tooltipItem) => {
+                    const datasetIndex = tooltipItem.datasetIndex;
+                    const index = tooltipItem.dataIndex;
+                    const dataset = scatterChart.data.datasets[datasetIndex];
+                    dataset.pointRadius = sizeValues.slice(); // Make a copy of sizeValues
+                    dataset.pointRadius[index] = sizeValues[index] * 2; // Double the size on hover
+                    scatterChart.update();
+                };
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
