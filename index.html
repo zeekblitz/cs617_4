@@ -39,13 +39,7 @@
                             data: dataPoints,
                             // make the backgroound color dependant on the datapoints z value
                             backgroundColor: dataPoints.map(point => {
-                                if (point.z < 10) {
-                                    return 'rgba(255, 0, 0, 0.5)';
-                                } else if (point.z < 25) {
-                                    return 'rgba(255, 255, 0, 0.5)';
-                                } else {
-                                    return 'rgba(0, 255, 0, 0.5)';
-                                }
+                                String('rgba(' + point.z + ', 192, 192, 1)');
                             }),
                             borderColor: 'rgba(75, 192, 192, 1)', // Border color of data points
                             borderWidth: 1,
