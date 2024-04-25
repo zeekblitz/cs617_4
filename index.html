@@ -16,7 +16,6 @@
             .then(data => {
                 const labels = [];
                 const dataPoints = [];
-                const colors = [];
 
                 // Parse CSV data
                 const rows = data.trim().split('\n');
@@ -25,19 +24,9 @@
                     labels.push(columns[0] + ' ' + columns[1]);
                     const xValue = parseFloat(columns[6]);
                     const yValue = parseInt(columns[5]);
-                    const colorValue = parseInt(columns[7]);
-
-                    dataPoints.push({ x: xValue, y: yValue });
-                    colors.push(colorValue);
+                    const zValue = parseInt(columns[7] + 10);
+                    dataPoints.push({ x: xValue, y: yValue, z:zValue });
                 });
-
-                // Define color gradient based on the range of color values
-                const minValue = Math.min(...colors);
-                const maxValue = Math.max(...colors);
-                const colorScale = (value) => {
-                    const normalizedValue = parseInt((value - minValue) / (maxValue - minValue));
-                    return `rgba(0, 0, ${normalizedValue}, 0.6)`; // Red gradient (change as needed)
-                };
 
                 // Create scatterplot
                 const ctx = document.getElementById('scatterChart').getContext('2d');
@@ -48,11 +37,11 @@
                         datasets: [{
                             label: 'Rating vs Salary',
                             data: dataPoints,
-
-                            BackgroundColor: colors.map(colorScale), // Assign colors based on colorScale function
-                            
+                            backgroundColor: 'rgba(75, 192, 192, 0.6)', // Color of data points
+                            borderColor: 'rgba(75, 192, 192, 1)', // Border color of data points
                             borderWidth: 1,
-                            pointRadius: 10
+                            pointRadius: 10, // Size of data points
+                            hoverRadius: datapoints.z // Size of data points when hovered
                         }]
                     },
                     options: {
