@@ -2,34 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CS Professor Annual Pay Vs RMP Rating</title>
+    <title>Scatterplot Example</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <canvas id="scatterChart" width="600" height="400"></canvas>
+    <canvas id="scatterChart" width="800" height="600"></canvas>
 
     <script>
         // Load data from CSV file
-        
-        fetch('data.csv')
+        fetch('path/to/your/data.csv')
             .then(response => response.text())
             .then(data => {
                 const labels = [];
                 const dataPoints = [];
-                const maxSize = [];
-                const minSize = 5;
+                const sizeValues = [];
 
                 // Parse CSV data
                 const rows = data.trim().split('\n');
                 rows.forEach(row => {
                     const columns = row.split(',');
-                    labels.push(columns[0] + ' ' + columns[1]);
-                    const xValue = parseFloat(columns[6]);
-                    const yValue = parseInt(columns[5]);
+                    labels.push(columns[0] + ' ' + columns[1]); // Assuming the first column contains labels
+                    const xValue = parseFloat(columns[6]); // Assuming the second column contains x-values
+                    const yValue = parseFloat(columns[5]); // Assuming the third column contains y-values
+                    const sizeValue = parseFloat(columns[7]); // Assuming the fourth column contains size-values
                     dataPoints.push({ x: xValue, y: yValue });
-
-                    const size = parseInt(columns[7] + minSize);
-                    maxSize.push(size);
+                    sizeValues.push(sizeValue);
                 });
 
                 // Create scatterplot
@@ -39,13 +36,13 @@
                     data: {
                         labels: labels,
                         datasets: [{
-                            label: 'Rating vs Salary',
+                            label: 'Scatterplot Example',
                             data: dataPoints,
-                            backgroundColor: 'rgba(75, 192, 192, 0.6)', // Color of data points
-                            borderColor: 'rgba(75, 192, 192, 1)', // Border color of data points
+                            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
                             borderWidth: 1,
-                            pointRadius: minSize, // Size of data points
-                            hoverRadius: maxSize // Size of data points when hovered
+                            pointRadius: sizeValues, // Set initial point radius based on sizeValues
+                            hoverRadius: sizeValues // Set hover point radius based on sizeValues
                         }]
                     },
                     options: {
@@ -79,7 +76,7 @@
                     const index = tooltipItem.dataIndex;
                     const dataset = scatterChart.data.datasets[datasetIndex];
                     dataset.pointRadius = sizeValues.slice(); // Make a copy of sizeValues
-                    dataset.pointRadius[index] = sizeValues[index] * 2; // Double the size on hover
+                    dataset.pointRadius[index] = sizeValues[index]; // Double the size on hover
                     scatterChart.update();
                 };
             })
