@@ -2,31 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Scatterplot Example</title>
+    <title>CS Professor Annual Pay Vs RMP Rating</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <canvas id="scatterChart" width="800" height="600"></canvas>
+    <canvas id="scatterChart" width="600" height="400"></canvas>
 
     <script>
         // Load data from CSV file
+        
         fetch('data.csv')
             .then(response => response.text())
             .then(data => {
                 const labels = [];
                 const dataPoints = [];
-                const sizeValues = [];
+                const minSize = 5;
 
                 // Parse CSV data
                 const rows = data.trim().split('\n');
                 rows.forEach(row => {
                     const columns = row.split(',');
-                    labels.push(columns[0]); // Assuming the first column contains labels
-                    const xValue = parseFloat(columns[6]); // Assuming the second column contains x-values
-                    const yValue = parseFloat(columns[5]); // Assuming the third column contains y-values
-                    const sizeValue = parseFloat(columns[7]); // Assuming the fourth column contains size-values
-                    dataPoints.push({ x: xValue, y: yValue });
-                    sizeValues.push(sizeValue);
+                    labels.push(columns[0] + ' ' + columns[1]);
+                    const xValue = parseFloat(columns[6]);
+                    const yValue = parseInt(columns[5]);
+                    const zValue = parseInt(columns[7] + minSize);
+                    dataPoints.push({ x: xValue, y: yValue, z:zValue });
                 });
 
                 // Create scatterplot
@@ -36,13 +36,12 @@
                     data: {
                         labels: labels,
                         datasets: [{
-                            label: 'Scatterplot Example',
+                            label: 'Rating vs Salary',
                             data: dataPoints,
-                            backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
+                            backgroundColor: 'rgba(75, 192, 192, 0.6)', // Color of data points
+                            borderColor: 'rgba(75, 192, 192, 1)', // Border color of data points
                             borderWidth: 1,
-                            pointRadius: sizeValues.map(value => 5), // Set initial point radius to minimum size (e.g., 5)
-                            hoverRadius: sizeValues // Set hover point radius based on sizeValues
+                            pointRadius: minSize, // Size of data points
                         }]
                     },
                     options: {
@@ -55,41 +54,9 @@
                                 type: 'linear',
                                 position: 'left'
                             }
-                        },
-                        plugins: {
-                            tooltip: {
-                                callbacks: {
-                                    label: (tooltipItem) => `${tooltipItem.label}: (${tooltipItem.raw.x}, ${tooltipItem.raw.y})`
-                                }
-                            }
-                        },
-                        interaction: {
-                            mode: 'nearest',
-                            intersect: false
                         }
                     }
                 });
-
-                // Update point radius on hover
-                scatterChart.options.plugins.tooltip.callbacks.afterLabel = (tooltipItem) => {
-                    const datasetIndex = tooltipItem.datasetIndex;
-                    const index = tooltipItem.dataIndex;
-                    const dataset = scatterChart.data.datasets[datasetIndex];
-                    const minRadius = 5;
-                    const maxRadius = sizeValues[index];
-
-                    // Calculate scaled radius based on sizeValue
-                    const scaleFactor = (maxRadius - minRadius) / maxRadius;
-                    dataset.pointRadius = sizeValues.map((value, i) => {
-                        if (i === index) {
-                            return maxRadius; // Set hovered point to max radius
-                        } else {
-                            return minRadius + value * scaleFactor; // Scale other points proportionally
-                        }
-                    });
-
-                    scatterChart.update();
-                };
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
