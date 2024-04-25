@@ -37,10 +37,10 @@
                         datasets: [{
                             label: 'Rating vs Salary',
                             data: dataPoints,
-                            backgroundColor: 'rgba(75, 192, 192, 0.6)', // Color of data points
+                            backgroundColor: 'rgba(' + dataPoints.z + ' 192, 192, 0.6)', // Color of data points
                             borderColor: 'rgba(75, 192, 192, 1)', // Border color of data points
                             borderWidth: 1,
-                            pointRadius: dataPoints.map(d => d.z) // Size of data points
+                            pointRadius: 10
                         }]
                     },
                     options: {
