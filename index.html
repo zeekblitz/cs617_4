@@ -9,62 +9,89 @@
     <canvas id="scatterChart" width="600" height="400"></canvas>
 
     <script>
-        // Load data from CSV file
-        
-        fetch('data.csv')
-            .then(response => response.text())
-            .then(data => {
-                const labels = [];
-                const dataPoints = [];
-                const minSize = 5;
-                const maxSize = [];
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load data from CSV file
+            fetch('data.csv')
+                .then(response => response.text())
+                .then(data => {
+                    const labels = [];
+                    const dataPoints = [];
+                    const minSize = 5;
+                    const maxSize = [];
 
-                // Parse CSV data
-                const rows = data.trim().split('\n');
-                rows.forEach(row => {
-                    const columns = row.split(',');
-                    labels.push(columns[0] + ' ' + columns[1]);
-                    const xValue = parseFloat(columns[6]); // RMP rating
-                    const yValue = parseInt(columns[5]); // Salary
-                    const zValue = parseInt(columns[7] + minSize); // number of ratings
-                    dataPoints.push({ x: xValue, y: yValue });
-                    maxSize.push(zValue);
-                });
+                    // Parse CSV data
+                    const rows = data.trim().split('\n');
+                    rows.forEach(row => {
+                        const columns = row.split(',');
+                        labels.push(columns[0] + ' ' + columns[1]);
+                        const xValue = parseFloat(columns[6]);
+                        const yValue = parseInt(columns[5]);
+                        const zValue = parseInt(columns[7]) + minSize;
+                        dataPoints.push({ x: xValue, y: yValue });
+                        maxSize.push(zValue);
+                    });
 
-                // Create scatterplot
-                const ctx = document.getElementById('scatterChart').getContext('2d');
-                const scatterChart = new Chart(ctx, {
-                    type: 'scatter',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Rating vs Salary',
-                            data: dataPoints,
-                            backgroundColor: 'rgba(0, 90, 139, 0.6)', // Color of data points
-                            borderColor: 'rgba(0, 90, 139, 1)', // Border color of data points
-                            borderWidth: 1,
-                            pointRadius: minSize, // Size of data points
-                            //pointHoverRadius: maxSize.values()
-                            pointHoverRadius: 10
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            x: {
-                                type: 'linear',
-                                position: 'bottom'
-                            },
-                            y: {
-                                type: 'linear',
-                                position: 'left'
-                            }
-                        }
+                    const minYvalue = Math.min(...dataPoints.map(point => point.y));
+                    const maxYvalue = Math.max(...dataPoints.map(point => point.y));
+                    const linearScale = (value) => {
+                        normalize = (value - minYvalue) / (maxYvalue - minYvalue);
+                        return normalize;
                     }
+
+                    // Create scatterplot
+                    const ctx = document.getElementById('scatterChart').getContext('2d');
+                    let scatterChart;
+
+                    function createChart() {
+                        scatterChart = new Chart(ctx, {
+                            type: 'scatter',
+                            data: {
+                                labels: labels,
+                                datasets: [{
+                                    label: 'Rating vs Salary',
+                                    data: dataPoints,
+                                    backgroundColor: 'rgba(0, 90, 139, 0.6)',
+                                    borderColor: 'rgba(0, 90, 139, 1)',
+                                    borderWidth: 1,
+                                    pointRadius: minSize,
+                                    pointHoverRadius: maxSize.map(size => size)
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    x: {
+                                        type: 'linear',
+                                        position: 'bottom'
+                                    },
+                                    y: {
+                                        type: 'linear',
+                                        position: 'left'
+                                    }
+                                }
+                            }
+                        });
+                    }
+
+                    createChart(); // Initialize the chart
+
+                    // Update y-values based on scroll position
+                    window.addEventListener('scroll', () => {
+                        if (scatterChart) {
+                            const scrollY = window.scrollY || window.pageYOffset;
+                            const scrollScaleFactor = 0.1; // Adjust this factor based on the desired sensitivity
+
+                            scatterChart.data.datasets[0].data.forEach(point => {
+                                point.y = point.y + (scrollY * scrollScaleFactor);
+                            });
+
+                            scatterChart.update();
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
                 });
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
+        });
     </script>
 </body>
 </html>
