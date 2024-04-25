@@ -21,10 +21,11 @@
                 const rows = data.trim().split('\n');
                 rows.forEach(row => {
                     const columns = row.split(',');
-                    labels.push(columns[0] + ' ' + columns[1]); // Assuming the first column contains labels
-                    const xValue = parseFloat(columns[6]); // Assuming the second column contains x-values
-                    const yValue = parseInt(columns[5]); // Assuming the third column contains y-values
-                    dataPoints.push({ x: xValue, y: yValue });
+                    labels.push(columns[0] + ' ' + columns[1]);
+                    const xValue = parseFloat(columns[6]);
+                    const yValue = parseInt(columns[5]);
+                    const zValue = parseInt(columns[7]);
+                    dataPoints.push({ x: xValue, y: yValue, z:zValue });
                 });
 
                 // Create scatterplot
@@ -39,7 +40,7 @@
                             backgroundColor: 'rgba(75, 192, 192, 0.6)', // Color of data points
                             borderColor: 'rgba(75, 192, 192, 1)', // Border color of data points
                             borderWidth: 1,
-                            pointRadius: 10
+                            pointRadius: dataPoints.map(d => d.z) // Size of data points
                         }]
                     },
                     options: {
