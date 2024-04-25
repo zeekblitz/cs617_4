@@ -1,0 +1,27 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    // create a vegalite chart based on the data in the csv file
+    <div id="vis"></div>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    <script>
+        vegaEmbed('#vis', {
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            "data": {
+                "url": "data.csv"
+            },
+            "mark": "bar",
+            "encoding": {
+                "x": {"field": "a", "type": "ordinal"},
+                "y": {"field": "b", "type": "quantitative"}
+            }
+        });
+    </script>
+</body>
+</html>

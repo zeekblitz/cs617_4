@@ -1,0 +1,30 @@
+FIRST_NAME,LAST_NAME,POSITION_TITLE,PAY_TOTAL_ACTUAL,PAY_OTHER_ACTUAL,ANNUAL_RATE,RATING,NUM_RATINGS,DEPARTMENT
+James,Luther,Lecturer,0.0,0.0,56000.1,-1.0,0,Computer Science
+Soheil,Sepahyar,Lecturer,9530.59,1992.08,56000.1,0.0,0,Computer Science
+Swaminathan,Iyer,Senior Lecturer,25530.71,4968.75,90259.238,3.0,2,Computer Science
+Dan,Simovici,Grad Prog Dir/Professor,54774.12,0.0,240359.164,3.8,4,Computer Science
+Marc,Pomplun,Professor,23690.66,6667.0,203766.453,4.0,10,Computer Science
+Junichi,Suzuki,Associate Professor,35255.08,0.0,154756.11,0.0,0,Computer Science
+Duc,Tran,Associate Professor,35505.76,0.0,155856.505,2.5,37,Computer Science
+Wei,Ding,Professor,39657.04,0.0,174078.985,1.6,19,Computer Science
+Jane,De Blois,Lecturer,6969.84,0.0,43679.953,-1.0,0,Computer Science
+Nurit,Haspel,Professor,38398.24,0.0,168553.359,4.9,14,Computer Science
+Bo,Sheng,Associate Professor,33588.36,0.0,147439.856,3.5,8,Computer Science
+Glenn,Hoffman,Senior Lecturer,17350.44,0.0,76161.627,4.5,39,Computer Science
+Ming,Ouyang,Associate Professor,32920.48,0.0,144507.999,2.6,16,Computer Science
+Amanda,Potasznik,Senior Lecturer,17990.2,750.0,75677.68,3.1,146,Computer Science
+Simon,Tran,Lecturer,7225.44,0.0,31716.665,5.0,7,Computer Science
+Xiaohui,Liang,Associate Professor,24114.3,4436.7,135276.651,1.5,7,Computer Science
+Kenneth,Fletcher,Associate Professor,29181.8,0.0,128096.649,4.4,3,Computer Science
+Torna,Soro,Lecturer,10132.74,0.0,57368.064,2.6,5,Computer Science
+Temitayo,Banjo,Lecturer,16976.23,3312.51,59978.311,2.4,30,Computer Science
+Tiago,Soares Cogumbreiro Garcia,Assistant Professor,26801.8,0.0,117649.646,-1.0,0,Computer Science
+Daniel,Haehn,Assistant Professor,27327.4,0.0,119956.622,5.0,24,Computer Science
+Funda,Durupinar Babur,Assistant Professor,27327.4,0.0,119956.622,-1.0,0,Computer Science
+Cristina,Maier,Associate Lecturer,7293.0,0.0,39780.0,2.0,1,Computer Science
+Ozgun,Babur,Assistant Professor,27173.56,0.0,119281.444,1.5,20,Computer Science
+Stephen,Chang,Assistant Professor,27173.56,0.0,119281.444,4.3,10,Computer Science
+Ryan,Culpepper,Visiting Assistant Professor,20944.0,0.0,91936.0,1.8,3,Computer Science
+Yinxin,Wan,Assistant Professor,25587.72,0.0,112320.239,-1.0,0,Computer Science
+Shichao,Pei,Visiting Assistant Professor,20138.48,0.0,88400.25,1.0,1,Computer Science
+Beatrice,Perez,Lecturer,6969.84,0.0,43680.0,4.0,1,Computer Science
