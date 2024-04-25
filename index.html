@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Scatterplot Example</title>
+    <title>CS Professor Annual Pay Vs RMP Rating</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -21,7 +21,7 @@
                 const rows = data.trim().split('\n');
                 rows.forEach(row => {
                     const columns = row.split(',');
-                    labels.push(columns[0]); // Assuming the first column contains labels
+                    labels.push(columns[0],columns[1]); // Assuming the first column contains labels
                     const xValue = parseInt(columns[6]); // Assuming the second column contains x-values
                     const yValue = parseInt(columns[5]); // Assuming the third column contains y-values
                     dataPoints.push({ x: xValue, y: yValue });
@@ -34,11 +34,12 @@
                     data: {
                         labels: labels,
                         datasets: [{
-                            label: 'Scatterplot Example',
+                            label: 'Rating vs Salary',
                             data: dataPoints,
                             backgroundColor: 'rgba(75, 192, 192, 0.6)', // Color of data points
                             borderColor: 'rgba(75, 192, 192, 1)', // Border color of data points
-                            borderWidth: 1
+                            borderWidth: 1,
+                            ResizeObserverSize: 10
                         }]
                     },
                     options: {
