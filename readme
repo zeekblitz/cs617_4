@@ -1,0 +1,1 @@
+For this Project I wanted to display a linear change in Professors pay compared to their Rate My Professor rating. I Believe I have visually achieved that but something must be off with my math so upon a scroll down the Y axis go extremely high. I couldn't figure out how to 'clamp' the new y-values to the min and max of the original y values.

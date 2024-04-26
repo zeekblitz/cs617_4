@@ -1,15 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>CS Professor Annual Pay Vs RMP Rating</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        #dynamicText {
+            position: fixed;
+            top: 100px;
+            left: 100px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
 </head>
+
 <body>
+    <div id="dynamicText">A discrepancy amongst CS professors' annual pay and RMP rating?</div>
     <canvas id="scatterChart" width="600" height="400"></canvas>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            let scatterChart;
+            let originalDataPoints; // Store original data points for reset
+
             // Load data from CSV file
             fetch('data.csv')
                 .then(response => response.text())
@@ -31,60 +47,67 @@
                         maxSize.push(zValue);
                     });
 
-                    const minYvalue = Math.min(...dataPoints.map(point => point.y));
-                    const maxYvalue = Math.max(...dataPoints.map(point => point.y));
-                    const linearScale = (value) => {
-                        normalize = (value - minYvalue) / (maxYvalue - minYvalue);
-                        return normalize;
-                    }
+                    originalDataPoints = [...dataPoints]; // Make a copy of original data
 
                     // Create scatterplot
                     const ctx = document.getElementById('scatterChart').getContext('2d');
-                    let scatterChart;
-
-                    function createChart() {
-                        scatterChart = new Chart(ctx, {
-                            type: 'scatter',
-                            data: {
-                                labels: labels,
-                                datasets: [{
-                                    label: 'Rating vs Salary',
-                                    data: dataPoints,
-                                    backgroundColor: 'rgba(0, 90, 139, 0.6)',
-                                    borderColor: 'rgba(0, 90, 139, 1)',
-                                    borderWidth: 1,
-                                    pointRadius: minSize,
-                                    pointHoverRadius: maxSize.map(size => size)
-                                }]
-                            },
-                            options: {
-                                scales: {
-                                    x: {
-                                        type: 'linear',
-                                        position: 'bottom'
-                                    },
-                                    y: {
-                                        type: 'linear',
-                                        position: 'left'
-                                    }
+                    scatterChart = new Chart(ctx, {
+                        type: 'scatter',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Rating vs Salary',
+                                data: dataPoints,
+                                backgroundColor: 'rgba(0, 90, 139, 0.6)',
+                                borderColor: 'rgba(0, 90, 139, 1)',
+                                borderWidth: 1,
+                                pointRadius: minSize,
+                                pointHoverRadius: maxSize.map(size => size),
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                x: {
+                                    type: 'linear',
+                                    position: 'bottom'
+                                },
+                                y: {
+                                    type: 'linear',
+                                    position: 'left'
                                 }
                             }
-                        });
-                    }
-
-                    createChart(); // Initialize the chart
+                        }
+                    });
 
                     // Update y-values based on scroll position
-                    window.addEventListener('scroll', () => {
-                        if (scatterChart) {
-                            const scrollY = window.scrollY || window.pageYOffset;
-                            const scrollScaleFactor = 0.1; // Adjust this factor based on the desired sensitivity
+                    let lastScrollY = 0;
+                    const scrollScaleFactor = 10000; // Adjust this factor based on desired sensitivity
 
-                            scatterChart.data.datasets[0].data.forEach(point => {
-                                point.y = point.y + (scrollY * scrollScaleFactor);
+                    window.addEventListener('scroll', () => {
+                        const scrollY = window.scrollY || window.pageYOffset;
+                        const deltaY = scrollY - lastScrollY;
+
+                        if (scatterChart && originalDataPoints) {
+                            // Scale y-values based on x-values
+                            scatterChart.data.datasets[0].data.forEach((point, index) => {
+                                const originalY = originalDataPoints[index].y;
+                                const newX = point.x;
+                                const newY = originalY + (deltaY * scrollScaleFactor * newX);
+
+                                point.y = newY;
                             });
 
                             scatterChart.update();
+                        }
+
+                        lastScrollY = scrollY;
+
+                        // Update dynamic text based on scroll position
+                        const dynamicText = document.getElementById('dynamicText');
+                        if (scrollY > 100) {
+                            dynamicText.textContent = 'If professors were paid based on their RMP rating...';
+                        } else {
+                            dynamicText.textContent = 'A discrepancy amongst CS professors\' annual pay and RMP rating?';
                         }
                     });
                 })
@@ -94,4 +117,5 @@
         });
     </script>
 </body>
+
 </html>
